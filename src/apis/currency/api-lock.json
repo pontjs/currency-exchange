@@ -1,0 +1,556 @@
+{
+  "components": {
+    "schemas": {
+      "ExchangeRateResponse": {
+        "type": "object",
+        "description": "Response containing exchange rates for a single date",
+        "required": [
+          "amount",
+          "base",
+          "date",
+          "rates"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The amount used for conversion",
+            "example": 1,
+            "minimum": 0
+          },
+          "base": {
+            "type": "string",
+            "description": "The base currency code (ISO 4217)",
+            "pattern": "^[A-Z]{3}$",
+            "example": "EUR"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date of the exchange rates in ISO 8601 format",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "example": "2026-01-23"
+          },
+          "rates": {
+            "type": "object",
+            "description": "Exchange rates as key-value pairs (currency code to rate)",
+            "additionalProperties": {
+              "type": "number",
+              "format": "double"
+            },
+            "example": {
+              "USD": 1.0445,
+              "GBP": 0.8342,
+              "JPY": 161.23,
+              "CHF": 0.9234,
+              "AUD": 1.6111
+            }
+          }
+        }
+      },
+      "TimeSeriesResponse": {
+        "type": "object",
+        "description": "Response containing exchange rates for a date range",
+        "required": [
+          "amount",
+          "base",
+          "start_date",
+          "end_date",
+          "rates"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The amount used for conversion",
+            "example": 1,
+            "minimum": 0
+          },
+          "base": {
+            "type": "string",
+            "description": "The base currency code (ISO 4217)",
+            "pattern": "^[A-Z]{3}$",
+            "example": "EUR"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The start date of the time series",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "example": "2024-01-01"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "description": "The end date of the time series",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "example": "2024-01-31"
+          },
+          "rates": {
+            "type": "object",
+            "description": "Exchange rates organized by date",
+            "additionalProperties": {
+              "type": "object",
+              "description": "Exchange rates for a specific date",
+              "additionalProperties": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "example": {
+              "2024-01-01": {
+                "USD": 1.1047,
+                "GBP": 0.8692
+              },
+              "2024-01-02": {
+                "USD": 1.1023,
+                "GBP": 0.8671
+              }
+            }
+          }
+        }
+      },
+      "CurrenciesResponse": {
+        "type": "object",
+        "description": "Map of currency codes to their full names",
+        "additionalProperties": {
+          "type": "string"
+        },
+        "example": {
+          "EUR": "Euro",
+          "USD": "United States Dollar",
+          "GBP": "British Pound",
+          "JPY": "Japanese Yen",
+          "AUD": "Australian Dollar"
+        }
+      },
+      "Error": {
+        "type": "object",
+        "description": "Error response",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Short error identifier",
+            "example": "Invalid base currency"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed error message",
+            "example": "Currency code XXX is not supported"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "AmountParam": {
+        "name": "amount",
+        "in": "query",
+        "description": "The amount to be converted (default is 1)",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "default": 1,
+          "minimum": 0
+        }
+      },
+      "BaseParam": {
+        "name": "base",
+        "in": "query",
+        "description": "Base currency code (three-letter ISO 4217 code)",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "default": "EUR"
+        }
+      },
+      "SymbolsParam": {
+        "name": "symbols",
+        "in": "query",
+        "description": "Comma-separated list of currency codes to limit the response",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}(,[A-Z]{3})*$"
+        },
+        "style": "form",
+        "explode": false
+      }
+    }
+  },
+  "apis": {
+    "exchangeRates/getLatestRates": {
+      "summary": "Get latest exchange rates",
+      "consumes": [],
+      "description": "Retrieves the most recent exchange rates. Rates are updated daily around 16:00 CET.\nBy default, returns all available currencies with EUR as the base currency.\n",
+      "method": "GET",
+      "path": "/latest",
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/components/schemas/ExchangeRateResponse"
+          }
+        },
+        "400": {
+          "schema": {
+            "$ref": "#/components/schemas/Error"
+          }
+        },
+        "404": {
+          "schema": {
+            "$ref": "#/components/schemas/Error"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "query",
+          "name": "amount",
+          "required": false,
+          "schema": {
+            "description": "The amount to be converted (default is 1)",
+            "type": "number",
+            "format": "double",
+            "default": 1,
+            "minimum": 0,
+            "example": 100
+          }
+        },
+        {
+          "in": "query",
+          "name": "base",
+          "required": false,
+          "schema": {
+            "description": "Base currency code (three-letter ISO 4217 code)",
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "default": "EUR",
+            "example": "USD",
+            "enum": [
+              "AUD",
+              "BRL",
+              "CAD",
+              "CHF",
+              "CNY",
+              "CZK",
+              "DKK",
+              "EUR",
+              "GBP",
+              "HKD",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "ISK",
+              "JPY",
+              "KRW",
+              "MXN",
+              "MYR",
+              "NOK",
+              "NZD",
+              "PHP",
+              "PLN",
+              "RON",
+              "SEK",
+              "SGD",
+              "THB",
+              "TRY",
+              "USD",
+              "ZAR"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "symbols",
+          "required": false,
+          "schema": {
+            "description": "Comma-separated list of currency codes to limit the response.\nIf not specified, all available currencies are returned.\n",
+            "style": "form",
+            "explode": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}(,[A-Z]{3})*$",
+            "example": "USD,GBP,JPY"
+          }
+        }
+      ],
+      "produces": [
+        "application/json"
+      ]
+    },
+    "exchangeRates/getHistoricalRates": {
+      "summary": "Get historical exchange rates",
+      "consumes": [],
+      "description": "Retrieves exchange rates for a specific date in the past.\nHistorical data is available from 1999-01-04 onwards.\n",
+      "method": "GET",
+      "path": "/{date}",
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/components/schemas/ExchangeRateResponse"
+          }
+        },
+        "400": {
+          "schema": {
+            "$ref": "#/components/schemas/Error"
+          }
+        },
+        "404": {
+          "schema": {
+            "$ref": "#/components/schemas/Error"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "date",
+          "required": true,
+          "schema": {
+            "description": "Date in ISO 8601 format (YYYY-MM-DD)",
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "example": "2024-01-15"
+          }
+        },
+        {
+          "in": "query",
+          "name": "amount",
+          "required": false,
+          "schema": {
+            "description": "The amount to be converted (default is 1)",
+            "type": "number",
+            "format": "double",
+            "default": 1,
+            "minimum": 0
+          }
+        },
+        {
+          "in": "query",
+          "name": "base",
+          "required": false,
+          "schema": {
+            "description": "Base currency code (three-letter ISO 4217 code)",
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "default": "EUR",
+            "enum": [
+              "AUD",
+              "BRL",
+              "CAD",
+              "CHF",
+              "CNY",
+              "CZK",
+              "DKK",
+              "EUR",
+              "GBP",
+              "HKD",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "ISK",
+              "JPY",
+              "KRW",
+              "MXN",
+              "MYR",
+              "NOK",
+              "NZD",
+              "PHP",
+              "PLN",
+              "RON",
+              "SEK",
+              "SGD",
+              "THB",
+              "TRY",
+              "USD",
+              "ZAR"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "symbols",
+          "required": false,
+          "schema": {
+            "description": "Comma-separated list of currency codes to limit the response",
+            "style": "form",
+            "explode": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}(,[A-Z]{3})*$"
+          }
+        }
+      ],
+      "produces": [
+        "application/json"
+      ]
+    },
+    "exchangeRates/getTimeSeriesRates": {
+      "summary": "Get time series of exchange rates",
+      "consumes": [],
+      "description": "Retrieves exchange rates for a date range, returning daily rates between the start and end dates (inclusive).\nIf end_date is omitted, returns all rates from start_date to the latest available date.\n",
+      "method": "GET",
+      "path": "/{start_date}..{end_date}",
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/components/schemas/TimeSeriesResponse"
+          }
+        },
+        "400": {
+          "schema": {
+            "$ref": "#/components/schemas/Error"
+          }
+        },
+        "404": {
+          "schema": {
+            "$ref": "#/components/schemas/Error"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "start_date",
+          "required": true,
+          "schema": {
+            "description": "Start date in ISO 8601 format (YYYY-MM-DD)",
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "example": "2024-01-01"
+          }
+        },
+        {
+          "in": "path",
+          "name": "end_date",
+          "required": false,
+          "schema": {
+            "description": "End date in ISO 8601 format (YYYY-MM-DD).\nCan be omitted by using format \"start_date..\" to get all rates from start_date onwards.\n",
+            "type": "string",
+            "format": "date",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+            "example": "2024-01-31"
+          }
+        },
+        {
+          "in": "query",
+          "name": "amount",
+          "required": false,
+          "schema": {
+            "description": "The amount to be converted (default is 1)",
+            "type": "number",
+            "format": "double",
+            "default": 1,
+            "minimum": 0
+          }
+        },
+        {
+          "in": "query",
+          "name": "base",
+          "required": false,
+          "schema": {
+            "description": "Base currency code (three-letter ISO 4217 code)",
+            "type": "string",
+            "pattern": "^[A-Z]{3}$",
+            "default": "EUR",
+            "enum": [
+              "AUD",
+              "BRL",
+              "CAD",
+              "CHF",
+              "CNY",
+              "CZK",
+              "DKK",
+              "EUR",
+              "GBP",
+              "HKD",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "ISK",
+              "JPY",
+              "KRW",
+              "MXN",
+              "MYR",
+              "NOK",
+              "NZD",
+              "PHP",
+              "PLN",
+              "RON",
+              "SEK",
+              "SGD",
+              "THB",
+              "TRY",
+              "USD",
+              "ZAR"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "symbols",
+          "required": false,
+          "schema": {
+            "description": "Comma-separated list of currency codes to limit the response",
+            "style": "form",
+            "explode": false,
+            "type": "string",
+            "pattern": "^[A-Z]{3}(,[A-Z]{3})*$"
+          }
+        }
+      ],
+      "produces": [
+        "application/json"
+      ]
+    },
+    "Currencies/getCurrencies": {
+      "summary": "Get list of supported currencies",
+      "consumes": [],
+      "description": "Returns a list of all currency codes supported by the API along with their full names.\nThis endpoint requires no parameters.\n",
+      "method": "GET",
+      "path": "/currencies",
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/components/schemas/CurrenciesResponse"
+          }
+        }
+      },
+      "parameters": [],
+      "produces": [
+        "application/json"
+      ]
+    }
+  },
+  "name": "currency",
+  "servers": [
+    {
+      "url": "https://api.frankfurter.dev/v1",
+      "description": "Production server"
+    }
+  ],
+  "info": {
+    "description": "Frankfurter is a free, open-source currency data API that tracks reference exchange rates published by the European Central Bank.\n\n## Features\n- No API keys required\n- No usage limits\n- Daily updates around 16:00 CET\n- Support for 31+ currencies\n- CORS-enabled for browser usage\n- Historical data available\n\n## Data Source\nExchange rates are sourced from the European Central Bank and other financial institutions.\n",
+    "version": "1.0.0",
+    "title": "Frankfurter API"
+  },
+  "externalDocs": {
+    "description": "Official Frankfurter API Documentation",
+    "url": "https://frankfurter.dev"
+  },
+  "ext": {},
+  "tags": [
+    {
+      "name": "exchangeRates",
+      "description": "Operations for retrieving currency exchange rates"
+    },
+    {
+      "name": "Currencies",
+      "description": "Operations for listing supported currencies"
+    }
+  ]
+}
