@@ -1,4 +1,4 @@
-# currency-exchange
+# currency-exchange-client
 
 Currency exchange rate converter SDK powered by Frankfurter API
 
@@ -13,11 +13,11 @@ Currency exchange rate converter SDK powered by Frankfurter API
 ## Installation
 
 ```bash
-npm install currency-exchange
+npm install currency-exchange-client
 # or
-pnpm add currency-exchange
+pnpm add currency-exchange-client
 # or
-yarn add currency-exchange
+yarn add currency-exchange-client
 ```
 
 ## SDK Usage
@@ -25,7 +25,7 @@ yarn add currency-exchange
 ### Basic Usage
 
 ```typescript
-import currencyExchangeClient from "currency-exchange";
+import currencyExchangeClient from "currency-exchange-client";
 
 async function main() {
   // Get latest exchange rates

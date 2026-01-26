@@ -1,15 +1,15 @@
 {
-  "name": "currency-exchange",
-  "version": "0.1.0",
+  "name": "currency-exchange-client",
+  "version": "0.1.1",
   "description": "Currency exchange rate converter SDK powered by Frankfurter API",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
