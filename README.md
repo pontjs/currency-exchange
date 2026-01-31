@@ -1,6 +1,29 @@
 # currency-exchange-client
 
-Currency exchange rate converter SDK powered by Frankfurter API
+[![npm version](https://img.shields.io/npm/v/currency-exchange-client.svg)](https://www.npmjs.com/package/currency-exchange-client)
+[![npm downloads](https://img.shields.io/npm/dm/currency-exchange-client.svg)](https://www.npmjs.com/package/currency-exchange-client)
+[![license](https://img.shields.io/npm/l/currency-exchange-client.svg)](https://github.com/pontjs/currency-exchange/blob/main/LICENSE)
+
+Currency exchange rate converter SDK powered by [Frankfurter API](https://frankfurter.dev/) and Pontx.
+
+A TypeScript SDK for accessing foreign exchange rates and currency conversion data. The API is provided by [Frankfurter](https://frankfurter.dev/), a free and open-source currency data API that tracks reference exchange rates published by the European Central Bank.
+
+## Why Choose This SDK?
+
+### 🎯 Type-Safe SDK
+
+- **Full TypeScript Support**: Complete type definitions for all API methods and responses
+- **Auto-completion**: IntelliSense support in your IDE for all available currencies and parameters
+- **Compile-time Safety**: Catch errors during development, not at runtime
+- **Generated from OpenAPI**: SDK is auto-generated from the official OpenAPI specification, ensuring accuracy and up-to-date types
+
+### 🚀 Powerful CLI
+
+- **Interactive Commands**: Access all API features directly from your terminal
+- **Shell Completion**: Built-in completion support for bash, zsh, and fish shells
+- **No Code Required**: Quickly check exchange rates without writing any code
+- **Scriptable**: Perfect for shell scripts and automation workflows
+- **Help System**: Comprehensive help documentation for every command
 
 ## Features
 
@@ -39,6 +62,20 @@ async function main() {
 main();
 ```
 
+**Output:**
+
+```json
+{
+  "amount": 1,
+  "base": "USD",
+  "date": "2024-01-15",
+  "rates": {
+    "JPY": 148.5,
+    "CNY": 7.18
+  }
+}
+```
+
 ### API Methods
 
 #### Get Latest Exchange Rates
@@ -47,10 +84,24 @@ Retrieves the most recent exchange rates. Rates are updated daily around 16:00 C
 
 ```typescript
 const rates = await currencyExchangeClient.exchangeRates.getLatestRates({
-  amount: 100,           // Optional: amount to convert (default: 1)
-  base: "USD",          // Optional: base currency (default: EUR)
-  symbols: "JPY,CNY"    // Optional: comma-separated currency codes
+  amount: 100, // Optional: amount to convert (default: 1)
+  base: "USD", // Optional: base currency (default: EUR)
+  symbols: "JPY,CNY", // Optional: comma-separated currency codes
 });
+```
+
+**Response:**
+
+```typescript
+{
+  amount: 100,
+  base: "USD",
+  date: "2024-01-15",
+  rates: {
+    JPY: 14850.5,
+    CNY: 718.2
+  }
+}
 ```
 
 #### Get Historical Exchange Rates
@@ -58,13 +109,28 @@ const rates = await currencyExchangeClient.exchangeRates.getLatestRates({
 Retrieves exchange rates for a specific date. Historical data is available from 1999-01-04 onwards.
 
 ```typescript
-const historicalRates = await currencyExchangeClient.exchangeRates.getHistoricalRates(
-  "2024-01-01",         // Date in YYYY-MM-DD format
-  {
-    base: "USD",
-    symbols: "EUR,GBP"
+const historicalRates =
+  await currencyExchangeClient.exchangeRates.getHistoricalRates(
+    "2024-01-01", // Date in YYYY-MM-DD format
+    {
+      base: "USD",
+      symbols: "EUR,GBP",
+    }
+  );
+```
+
+**Response:**
+
+```typescript
+{
+  amount: 1,
+  base: "USD",
+  date: "2024-01-01",
+  rates: {
+    EUR: 0.91,
+    GBP: 0.79
   }
-);
+}
 ```
 
 #### Get Time Series Exchange Rates
@@ -72,14 +138,32 @@ const historicalRates = await currencyExchangeClient.exchangeRates.getHistorical
 Retrieves exchange rates for a date range, returning daily rates between the start and end dates.
 
 ```typescript
-const timeSeries = await currencyExchangeClient.exchangeRates.getTimeSeriesRates(
-  "2024-01-01",         // Start date
-  "2024-01-31",         // End date
-  {
-    base: "USD",
-    symbols: "EUR"
+const timeSeries =
+  await currencyExchangeClient.exchangeRates.getTimeSeriesRates(
+    "2024-01-01", // Start date
+    "2024-01-31", // End date
+    {
+      base: "USD",
+      symbols: "EUR",
+    }
+  );
+```
+
+**Response:**
+
+```typescript
+{
+  amount: 1,
+  base: "USD",
+  start_date: "2024-01-01",
+  end_date: "2024-01-31",
+  rates: {
+    "2024-01-01": { EUR: 0.91 },
+    "2024-01-02": { EUR: 0.92 },
+    "2024-01-03": { EUR: 0.91 },
+    // ... daily rates for the entire date range
   }
-);
+}
 ```
 
 #### Get Supported Currencies
@@ -88,6 +172,21 @@ Returns a list of all currency codes supported by the API along with their full 
 
 ```typescript
 const currencies = await currencyExchangeClient.Currencies.getCurrencies();
+```
+
+**Response:**
+
+```typescript
+{
+  AUD: "Australian Dollar",
+  BRL: "Brazilian Real",
+  CAD: "Canadian Dollar",
+  CHF: "Swiss Franc",
+  CNY: "Chinese Renminbi Yuan",
+  // ... all supported currencies
+  USD: "United States Dollar",
+  ZAR: "South African Rand"
+}
 ```
 
 ### Supported Currencies
@@ -211,10 +310,12 @@ import { defineConfig } from "pontx";
 
 export default defineConfig({
   outDir: "src/apis",
-  origins: [{
-    name: "currency",
-    localPath: "./openapi.json",
-  }],
+  origins: [
+    {
+      name: "currency",
+      localPath: "./openapi.json",
+    },
+  ],
 });
 ```
 
@@ -266,5 +367,5 @@ MIT
 
 ## Related Links
 
-- [Frankfurter API Documentation](https://www.frankfurter.app/docs/)
-- [Pontx Documentation](https://github.com/nailyjs/pontx)
+- [Frankfurter API](https://frankfurter.dev/) - Official Frankfurter API website
+- [Frankfurter API Documentation](https://www.frankfurter.app/docs/) - API documentation
