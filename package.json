@@ -1,6 +1,6 @@
 {
-  "name": "currency-exchange-client",
-  "version": "0.1.2",
+  "name": "@pontx/api-frankfurter",
+  "version": "0.1.0",
   "description": "Currency exchange rate converter SDK powered by Frankfurter API",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -34,6 +34,14 @@
   ],
   "author": "",
   "license": "MIT",
+  "homepage": "https://pontx-hub.vercel.app/en/sdks/frankfurter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pontjs/currency-exchange.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "tsup": "^8.0.0",
@@ -42,7 +50,7 @@
   },
   "dependencies": {
     "@pontx/sdk": "1.0.0-beta.0",
-    "pontx": "1.0.0-beta.0"
+    "pontx": "1.0.0-beta.3"
   },
   "engines": {
     "node": ">=18.0.0"

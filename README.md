@@ -1,10 +1,12 @@
-# currency-exchange-client
+# @pontx/api-frankfurter
 
-[![npm version](https://img.shields.io/npm/v/currency-exchange-client.svg)](https://www.npmjs.com/package/currency-exchange-client)
-[![npm downloads](https://img.shields.io/npm/dm/currency-exchange-client.svg)](https://www.npmjs.com/package/currency-exchange-client)
+[![npm version](https://img.shields.io/npm/v/@pontx/api-frankfurter.svg)](https://www.npmjs.com/package/@pontx/api-frankfurter)
+[![npm downloads](https://img.shields.io/npm/dm/@pontx/api-frankfurter.svg)](https://www.npmjs.com/package/@pontx/api-frankfurter)
 [![license](https://img.shields.io/npm/l/currency-exchange-client.svg)](https://github.com/pontjs/currency-exchange/blob/main/LICENSE)
 
 Currency exchange rate converter SDK powered by [Frankfurter API](https://frankfurter.dev/) and Pontx.
+
+Browse the approved API documentation and SDK guide on [Pontx Hub](https://pontx-hub.vercel.app/en/sdks/frankfurter).
 
 A TypeScript SDK for accessing foreign exchange rates and currency conversion data. The API is provided by [Frankfurter](https://frankfurter.dev/), a free and open-source currency data API that tracks reference exchange rates published by the European Central Bank.
 
@@ -36,11 +38,11 @@ A TypeScript SDK for accessing foreign exchange rates and currency conversion da
 ## Installation
 
 ```bash
-npm install currency-exchange-client
+npm install @pontx/api-frankfurter
 # or
-pnpm add currency-exchange-client
+pnpm add @pontx/api-frankfurter
 # or
-yarn add currency-exchange-client
+yarn add @pontx/api-frankfurter
 ```
 
 ## SDK Usage
@@ -48,7 +50,7 @@ yarn add currency-exchange-client
 ### Basic Usage
 
 ```typescript
-import currencyExchangeClient from "currency-exchange-client";
+import currencyExchangeClient from "@pontx/api-frankfurter";
 
 async function main() {
   // Get latest exchange rates

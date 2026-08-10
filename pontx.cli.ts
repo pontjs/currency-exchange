@@ -9,7 +9,7 @@ export default runCLI({
     case: "nodejs",
     "description": "Generate sample code for Node.js",
     "generateSample": async (api, options) => {
-      return `import currencyClient from "currency-exchange";
+      return `import currencyClient from "@pontx/api-frankfurter";
 
 async function main() {
   const response = await currencyClient.exchangeRates.getLatestRates({
