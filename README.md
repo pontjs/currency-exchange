@@ -8,6 +8,8 @@ Currency exchange rate converter SDK powered by [Frankfurter API](https://frankf
 
 Browse the approved API documentation and SDK guide on [Pontx Hub](https://pontx-hub.vercel.app/en/sdks/frankfurter).
 
+**Pontx Hub:** [https://pontx-hub.vercel.app/en/sdks/frankfurter](https://pontx-hub.vercel.app/en/sdks/frankfurter)
+
 A TypeScript SDK for accessing foreign exchange rates and currency conversion data. The API is provided by [Frankfurter](https://frankfurter.dev/), a free and open-source currency data API that tracks reference exchange rates published by the European Central Bank.
 
 ## Why Choose This SDK?

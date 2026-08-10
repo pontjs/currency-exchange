@@ -1,6 +1,6 @@
 {
   "name": "@pontx/api-frankfurter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Currency exchange rate converter SDK powered by Frankfurter API",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
