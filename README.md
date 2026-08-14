@@ -1,7 +1,7 @@
-# @pontx/api-frankfurter
+# @pontx/frankfurter
 
-[![npm version](https://img.shields.io/npm/v/@pontx/api-frankfurter.svg)](https://www.npmjs.com/package/@pontx/api-frankfurter)
-[![npm downloads](https://img.shields.io/npm/dm/@pontx/api-frankfurter.svg)](https://www.npmjs.com/package/@pontx/api-frankfurter)
+[![npm version](https://img.shields.io/npm/v/@pontx/frankfurter.svg)](https://www.npmjs.com/package/@pontx/frankfurter)
+[![npm downloads](https://img.shields.io/npm/dm/@pontx/frankfurter.svg)](https://www.npmjs.com/package/@pontx/frankfurter)
 [![license](https://img.shields.io/npm/l/currency-exchange-client.svg)](https://github.com/pontjs/currency-exchange/blob/main/LICENSE)
 
 Currency exchange rate converter SDK powered by [Frankfurter API](https://frankfurter.dev/) and Pontx.
@@ -40,11 +40,11 @@ A TypeScript SDK for accessing foreign exchange rates and currency conversion da
 ## Installation
 
 ```bash
-npm install @pontx/api-frankfurter
+npm install @pontx/frankfurter
 # or
-pnpm add @pontx/api-frankfurter
+pnpm add @pontx/frankfurter
 # or
-yarn add @pontx/api-frankfurter
+yarn add @pontx/frankfurter
 ```
 
 ## SDK Usage
@@ -52,7 +52,7 @@ yarn add @pontx/api-frankfurter
 ### Basic Usage
 
 ```typescript
-import currencyExchangeClient from "@pontx/api-frankfurter";
+import currencyExchangeClient from "@pontx/frankfurter";
 
 async function main() {
   // Get latest exchange rates
@@ -203,20 +203,20 @@ This package provides a command-line interface for quick currency conversions an
 
 ### Basic Commands
 
-After installation, you can use the `currency` command:
+After installation, you can use the `pontx-frankfurter` command:
 
 ```bash
 # Get latest exchange rates
-currency exchangeRates getLatestRates --base USD --symbols JPY,CNY
+pontx-frankfurter exchangeRates getLatestRates --base USD --symbols JPY,CNY
 
 # Get historical rates
-currency exchangeRates getHistoricalRates 2024-01-01 --base USD --symbols EUR
+pontx-frankfurter exchangeRates getHistoricalRates 2024-01-01 --base USD --symbols EUR
 
 # Get time series data
-currency exchangeRates getTimeSeriesRates 2024-01-01 2024-01-31 --base USD
+pontx-frankfurter exchangeRates getTimeSeriesRates 2024-01-01 2024-01-31 --base USD
 
 # List supported currencies
-currency Currencies getCurrencies
+pontx-frankfurter Currencies getCurrencies
 ```
 
 ### CLI Help
@@ -224,13 +224,13 @@ currency Currencies getCurrencies
 To see all available commands and options:
 
 ```bash
-currency --help
+pontx-frankfurter --help
 
 # Get help for a specific module
-currency exchangeRates --help
+pontx-frankfurter exchangeRates --help
 
 # Get help for a specific command
-currency exchangeRates getLatestRates --help
+pontx-frankfurter exchangeRates getLatestRates --help
 ```
 
 ### Shell Completion
@@ -242,13 +242,13 @@ The CLI supports shell completion for bash, zsh, and fish.
 Add to your `~/.bashrc`:
 
 ```bash
-eval "$(currency completion bash)"
+eval "$(pontx-frankfurter completion bash)"
 ```
 
 Or generate completion script to a file:
 
 ```bash
-currency completion bash > /etc/bash_completion.d/currency
+pontx-frankfurter completion bash > /etc/bash_completion.d/pontx-frankfurter
 ```
 
 #### Zsh
@@ -256,13 +256,13 @@ currency completion bash > /etc/bash_completion.d/currency
 Add to your `~/.zshrc`:
 
 ```zsh
-eval "$(currency completion zsh)"
+eval "$(pontx-frankfurter completion zsh)"
 ```
 
 Or generate completion script:
 
 ```zsh
-currency completion zsh > "${fpath[1]}/_currency"
+pontx-frankfurter completion zsh > "${fpath[1]}/_pontx-frankfurter"
 ```
 
 #### Fish
@@ -270,7 +270,7 @@ currency completion zsh > "${fpath[1]}/_currency"
 Generate completion script:
 
 ```fish
-currency completion fish > ~/.config/fish/completions/currency.fish
+pontx-frankfurter completion fish > ~/.config/fish/completions/pontx-frankfurter.fish
 ```
 
 ## Using Pontx CLI
@@ -289,7 +289,7 @@ npm install -D pontx
 
 ### Using Pontx CLI
 
-The `pontx` CLI provides the same capabilities as the `currency` CLI:
+The `pontx` CLI provides the same capabilities as the `pontx-frankfurter` CLI. The `currency` value below is the internal OpenAPI collection name:
 
 ```bash
 # Execute API calls using pontx
