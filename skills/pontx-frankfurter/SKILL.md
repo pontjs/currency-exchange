@@ -1,10 +1,10 @@
 ---
-name: currency
-description: 使用 currency CLI 搜索、查看和调用 API。 Frankfurter is a free, open-source currency data API that tracks reference exchange rates published by the European Central Bank. ## Features - No API keys required - No usage limits - Daily updates around 16:00 CET - Support for 31+ currencies - CORS-enabled for browser usage - Historical data available ## Data Source Exchange rates are sourced from the European Central Bank and other financial institutions.
+name: pontx-frankfurter
+description: 使用 pontx-frankfurter CLI 搜索、查看和调用 API。 Frankfurter is a free, open-source currency data API that tracks reference exchange rates published by the European Central Bank. ## Features - No API keys required - No usage limits - Daily updates around 16:00 CET - Support for 31+ currencies - CORS-enabled for browser usage - Historical data available ## Data Source Exchange rates are sourced from the European Central Bank and other financial institutions.
 version: 1.0.0
 ---
 
-# currency CLI SKILL
+# pontx-frankfurter CLI SKILL
 
 Frankfurter API
 
@@ -28,10 +28,10 @@ Exchange rates are sourced from the European Central Bank and other financial in
 
 ```bash
 # 安装 SDK（全局安装以使用 CLI）
-npm install -g @pontx/api-frankfurter
+npm install -g @pontx/frankfurter
 
 # 搜索 API
-currency search <keyword>
+pontx-frankfurter search <keyword>
 ```
 
 ## Core Workflows
@@ -40,44 +40,44 @@ currency search <keyword>
 
 ```bash
 # 搜索 API
-currency search <keyword> [-m, --max <count>] [--remote]
+pontx-frankfurter search <keyword> [-m, --max <count>] [--remote]
 
 # 列出所有 tags
-currency list tags
+pontx-frankfurter list tags
 
 # 列出所有 API
-currency list apis [--tag <tag>]
+pontx-frankfurter list apis [--tag <tag>]
 
 # 列出所有 specs
-currency list
+pontx-frankfurter list
 ```
 
 **示例**:
 ```bash
 # 搜索包含 "user" 的 API
-currency search user
+pontx-frankfurter search user
 
 # 限制返回 3 条结果
-currency search user -m 3
+pontx-frankfurter search user -m 3
 ```
 
 ### 2. API 详情查看
 
 ```bash
 # 查看 API 详情（参数、请求体、响应等）
-currency show-api [<tagName>.]<apiName> [--remote]
+pontx-frankfurter show-api [<tagName>.]<apiName> [--remote]
 
 # 查看 Schema 定义
-currency show-schema <schemaName> [--use-remote]
+pontx-frankfurter show-schema <schemaName> [--use-remote]
 ```
 
 **示例**:
 ```bash
 # 查看 API 详情
-currency show-api user.getUserInfo
+pontx-frankfurter show-api user.getUserInfo
 
 # 查看 Schema
-currency show-schema User
+pontx-frankfurter show-schema User
 ```
 
 **API Path 格式**: `tag.apiName`
@@ -86,7 +86,7 @@ currency show-schema User
 ### 3. 代码生成
 
 ```bash
-currency gen <api-path> [options]
+pontx-frankfurter gen <api-path> [options]
 
 Options:
   --case <case>        代码模板名称 (默认: request)
@@ -99,16 +99,16 @@ Options:
 **示例**:
 ```bash
 # 生成基础请求代码
-currency gen user.getUserInfo
+pontx-frankfurter gen user.getUserInfo
 
 # 生成 React Hooks 代码
-currency gen user.getUserInfo --case reactHooks
+pontx-frankfurter gen user.getUserInfo --case reactHooks
 
 # 带参数生成代码
-currency gen user.getUserInfo --params '{"id": 123}'
+pontx-frankfurter gen user.getUserInfo --params '{"id": 123}'
 
 # 查看可用模板
-currency list-templates
+pontx-frankfurter list-templates
 ```
 
 **SDK 集成示例**:
@@ -130,7 +130,7 @@ const result = await request.getUserInfo({ id: 123 });
 3. 确认无误后执行实际调用
 
 ```bash
-currency call <api-path> [args...] [options]
+pontx-frankfurter call <api-path> [args...] [options]
 
 Options:
   -e, --env <env>           环境名称
@@ -149,45 +149,45 @@ Options:
 **示例**:
 ```bash
 # Step 1: 查看 API 详情
-currency show-api user.getUserInfo
+pontx-frankfurter show-api user.getUserInfo
 
 # Step 2: 预览请求（不实际发送）
-currency call user.getUserInfo --id 123 --dry-run
+pontx-frankfurter call user.getUserInfo --id 123 --dry-run
 
 # Step 3: 实际调用
-currency call user.getUserInfo --id 123
+pontx-frankfurter call user.getUserInfo --id 123
 
 # 使用 JMESPath 查询结果
-currency call user.getUserInfo --id 123 -q "data.name"
+pontx-frankfurter call user.getUserInfo --id 123 -q "data.name"
 
 # 保存结果到文件
-currency call user.getUserInfo --id 123 -o result.json
+pontx-frankfurter call user.getUserInfo --id 123 -o result.json
 
 # 切换环境
-currency call user.getUserInfo --id 123 -e production
+pontx-frankfurter call user.getUserInfo --id 123 -e production
 ```
 
 ### 5. Shell 自动补全
 
 ```bash
 # 安装自动补全（自动检测 shell 类型）
-currency completion install
+pontx-frankfurter completion install
 
 # 手动指定 shell
-currency completion install --shell zsh
+pontx-frankfurter completion install --shell zsh
 
 # 生成补全脚本
-currency completion generate
+pontx-frankfurter completion generate
 
 # 卸载补全
-currency completion uninstall
+pontx-frankfurter completion uninstall
 ```
 
 ### 6. Pontx 统一工具
 
-`pontx` 是跨所有 API 规范的统一管理工具，而 `currency` 是针对单个 spec 的专用 CLI。
+`pontx` 是跨所有 API 规范的统一管理工具，而 `pontx-frankfurter` 是针对单个 spec 的专用 CLI。
 
-| 特性 | pontx | currency |
+| 特性 | pontx | pontx-frankfurter |
 |------|-------|-------------|
 | 管理范围 | 多个 API spec | 单个 API spec |
 | API 路径格式 | `spec.tag.api` | `tag.api` |
@@ -231,7 +231,7 @@ currency completion uninstall
 
 ## 相关资源
 
-- NPM: https://www.npmjs.com/package/@pontx/api-frankfurter
+- NPM: https://www.npmjs.com/package/@pontx/frankfurter
 - Hub: https://pontx-hub.vercel.app/en/sdks/frankfurter
 
 
@@ -239,4 +239,4 @@ currency completion uninstall
 
 ---
 
-*Generated by `currency skill`*
+*Generated by `pontx-frankfurter skill`*
