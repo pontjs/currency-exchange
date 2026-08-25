@@ -1,7 +1,9 @@
-import { currencyExchangeClient } from "../src/index";
+import { createFrankfurterClient } from "../src/index";
+
+const client = createFrankfurterClient();
 
 async function main() {
-  const response = await currencyExchangeClient.exchangeRates.getLatestRates({
+  const response = await client.exchangeRates.getLatestRates({
     base: "USD",
     symbols: "JPY,CNY",
   });

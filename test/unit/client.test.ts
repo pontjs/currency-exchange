@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import currencyExchangeClient, {
+  createFrankfurterClient,
   currencyExchangeClient as namedClient,
 } from "../../src/index";
 
@@ -24,10 +25,10 @@ describe("@pontx/frankfurter", () => {
         headers: { "content-type": "application/json" },
       }),
     );
-    vi.stubGlobal("fetch", fetchMock);
+    const client = createFrankfurterClient({ fetch: fetchMock });
 
     await expect(
-      currencyExchangeClient.exchangeRates.getLatestRates({
+      client.exchangeRates.getLatestRates({
         amount: 100,
         base: "USD",
         symbols: "JPY,CNY",
@@ -40,6 +41,25 @@ describe("@pontx/frankfurter", () => {
         method: "GET",
         headers: { Accept: "application/json" },
       }),
+    );
+  });
+
+  it("creates isolated clients with their own runtime origin", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ rates: {} }), {
+        headers: { "content-type": "application/json" },
+      }),
+    );
+    const client = createFrankfurterClient({
+      baseUrl: "https://rates.example.test/v1",
+      fetch: fetchMock,
+    });
+
+    await client.exchangeRates.getLatestRates({});
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://rates.example.test/v1/latest",
+      expect.any(Object),
     );
   });
 });
