@@ -53,11 +53,13 @@ yarn add @pontx/frankfurter
 ### Basic Usage
 
 ```typescript
-import currencyExchangeClient from "@pontx/frankfurter";
+import { createFrankfurterClient } from "@pontx/frankfurter";
+
+const client = createFrankfurterClient();
 
 async function main() {
   // Get latest exchange rates
-  const response = await currencyExchangeClient.exchangeRates.getLatestRates({
+  const response = await client.exchangeRates.getLatestRates({
     base: "USD",
     symbols: "JPY,CNY",
   });
@@ -88,7 +90,7 @@ main();
 Retrieves the most recent exchange rates. Rates are updated daily around 16:00 CET.
 
 ```typescript
-const rates = await currencyExchangeClient.exchangeRates.getLatestRates({
+const rates = await client.exchangeRates.getLatestRates({
   amount: 100, // Optional: amount to convert (default: 1)
   base: "USD", // Optional: base currency (default: EUR)
   symbols: "JPY,CNY", // Optional: comma-separated currency codes
@@ -115,7 +117,7 @@ Retrieves exchange rates for a specific date. Historical data is available from 
 
 ```typescript
 const historicalRates =
-  await currencyExchangeClient.exchangeRates.getHistoricalRates(
+  await client.exchangeRates.getHistoricalRates(
     "2024-01-01", // Date in YYYY-MM-DD format
     {
       base: "USD",
@@ -144,7 +146,7 @@ Retrieves exchange rates for a date range, returning daily rates between the sta
 
 ```typescript
 const timeSeries =
-  await currencyExchangeClient.exchangeRates.getTimeSeriesRates(
+  await client.exchangeRates.getTimeSeriesRates(
     "2024-01-01", // Start date
     "2024-01-31", // End date
     {
@@ -176,7 +178,7 @@ const timeSeries =
 Returns a list of all currency codes supported by the API along with their full names.
 
 ```typescript
-const currencies = await currencyExchangeClient.Currencies.getCurrencies();
+const currencies = await client.Currencies.getCurrencies();
 ```
 
 **Response:**
